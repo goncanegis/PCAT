@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const fileUpload = require('express-fileupload');
 const methodOverride = require('method-override');
+require('dotenv').config();
 const path = require('path');
 
 const photoController = require('./controllers/photoControllers');
@@ -10,7 +11,14 @@ const pageController = require('./controllers/pageController');
 const app = express();
 
 // connect db
-mongoose.connect('mongodb://localhost/pcat-test-db');
+mongoose
+  .connect(
+    `mongodb+srv://${process.env.USER_ID}:${process.env.USER_KEY}@cluster0.cqnchgx.mongodb.net/?retryWrites=true&w=majority`
+  )
+  .then(() => {
+    console.log('Connected to database!');
+  })
+  .catch((err) => console.log(err));
 
 // Template engine
 app.set('view engine', 'ejs');
@@ -36,7 +44,7 @@ app.get('/photos/edit/:id', pageController.getEditPage);
 app.put('/photos/:id', photoController.updatePhoto);
 app.delete('/photos/:id', photoController.deletePhoto);
 
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
