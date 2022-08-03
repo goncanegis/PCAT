@@ -51,14 +51,23 @@
 
       <!-- Catalog Paging Buttons -->
       <div>
+        <% if(totalPages > 0) { %>
         <ul class="nav tm-paging-links">
-          <li class="nav-item active"><a href="#" class="nav-link tm-paging-link">1</a></li>
-          <li class="nav-item"><a href="#" class="nav-link tm-paging-link">2</a></li>
-          <li class="nav-item"><a href="#" class="nav-link tm-paging-link">3</a></li>
-          <li class="nav-item"><a href="#" class="nav-link tm-paging-link">4</a></li>
-          <li class="nav-item"><a href="#" class="nav-link tm-paging-link">></a></li>
+
+          <% for (let i=1; i<=totalPages; i++) { %>
+          <li class="nav-item <% if(i == current) { %>active<% } else { %><% } %>">
+            <a class="nav-link tm-paging-link" href="/?page=<%= i %>">
+              <% if (i == current || i < totalPages) { %><%= i %><% } else { %>><% } %>
+            </a>
+          </li>
+          <%  } %>
         </ul>
+
+        <% } %>
       </div>
+
+
+
       </main>
 
       <%- include('partials/_footer.ejs'); %>
